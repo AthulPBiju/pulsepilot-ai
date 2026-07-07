@@ -37,24 +37,28 @@ export default function AIOverviewCards({ summary }) {
       key: "risk",
       label: "High Risk PHCs",
       value: summary.highRiskPhcCount,
+      context: summary.highRiskPhcContext,
       tone: "red",
     },
     {
       key: "stockout",
-      label: "Predicted Medicine Stock-outs",
+      label: "Medicine Stock-outs",
       value: summary.predictedStockOuts,
+      context: summary.predictedStockOutsContext,
       tone: "amber",
     },
     {
       key: "patients",
       label: "Expected Patient Increase",
       value: `+${summary.expectedPatientIncreasePct}%`,
+      context: summary.expectedPatientIncreaseContext,
       tone: "blue",
     },
     {
       key: "confidence",
-      label: "AI Confidence Score",
+      label: "Prediction Confidence",
       value: `${summary.aiConfidenceScore}%`,
+      context: summary.aiConfidenceContext,
       tone: "emerald",
     },
   ];
@@ -69,12 +73,17 @@ export default function AIOverviewCards({ summary }) {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
       {cards.map((c) => (
-        <div key={c.key} className={`rounded-xl border px-4 py-3 shadow-sm ${toneStyles[c.tone]}`}>
+        <div
+          key={c.key}
+          className={`rounded-xl border px-4 py-3 shadow-sm transition-all duration-200
+                      hover:-translate-y-0.5 hover:shadow-md ${toneStyles[c.tone]}`}
+        >
           <div className="flex items-center justify-between">
             <p className="text-xs font-medium opacity-70">{c.label}</p>
             <span className="opacity-60">{CARD_ICONS[c.key]}</span>
           </div>
           <p className="mt-1 text-xl font-bold">{c.value}</p>
+          {c.context && <p className="mt-1 text-xs font-medium opacity-70">{c.context}</p>}
         </div>
       ))}
     </div>

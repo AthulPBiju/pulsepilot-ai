@@ -1,8 +1,8 @@
 // src/components/ai-insights/ResourceRecommendations.jsx
 //
-// Compact list of AI-suggested redistribution actions (medicine, staff,
-// beds). Pairs with ExplainableAI, which shows the full reasoning for
-// each of these same recommendations.
+// "Top AI Recommendations" section: redistribution actions (medicine,
+// staff, beds) shown as cards with From / To / Expected Impact /
+// Confidence, so the action and its payoff are visible at a glance.
 
 import ConfidenceMeter from "./ConfidenceMeter";
 
@@ -35,25 +35,46 @@ function TypeIcon({ type }) {
 
 export default function ResourceRecommendations({ recommendations }) {
   return (
-    <div className="rounded-xl border border-blue-100 bg-white shadow-sm">
+    <div className="rounded-xl border border-blue-100 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md">
       <div className="border-b border-blue-50 px-4 py-3">
-        <h3 className="text-sm font-semibold text-slate-800">Resource Redistribution Recommendations</h3>
+        <h3 className="text-sm font-semibold text-slate-800">Top AI Recommendations</h3>
         <p className="text-xs text-slate-400">AI-suggested actions to balance medicine, staff, and capacity</p>
       </div>
 
       <ul className="divide-y divide-blue-50">
         {recommendations.map((r) => (
-          <li key={r.id} className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+          <li
+            key={r.id}
+            className="flex flex-col gap-3 px-4 py-4 transition-colors duration-150 hover:bg-blue-50/40"
+          >
             <div className="flex items-start gap-3">
               <span className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${TYPE_ICON_BG[r.type]}`}>
                 <TypeIcon type={r.type} />
               </span>
-              <div>
+              <div className="flex-1">
                 <p className="text-sm font-medium text-slate-700">{r.title}</p>
                 <p className="text-xs text-slate-400">{r.quantity}</p>
               </div>
             </div>
-            <div className="w-full sm:w-40">
+
+            <div className="ml-11 grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
+              {r.fromPhc && (
+                <div>
+                  <p className="text-slate-400">From</p>
+                  <p className="font-medium text-slate-700">{r.fromPhc}</p>
+                </div>
+              )}
+              <div>
+                <p className="text-slate-400">To</p>
+                <p className="font-medium text-slate-700">{r.toPhc}</p>
+              </div>
+              <div className="col-span-2">
+                <p className="text-slate-400">Expected Impact</p>
+                <p className="font-medium text-emerald-700">{r.expectedImpact}</p>
+              </div>
+            </div>
+
+            <div className="ml-11 max-w-xs">
               <ConfidenceMeter confidence={r.confidence} size="sm" />
             </div>
           </li>

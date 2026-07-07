@@ -7,6 +7,7 @@
 // the Medicine Inventory page. Routing is intentionally not included;
 // wire this page into the existing router/sidebar as needed.
 
+import AISituationSummary from "../components/ai-insights/AISituationSummary";
 import AIOverviewCards from "../components/ai-insights/AIOverviewCards";
 import MedicinePrediction from "../components/ai-insights/MedicinePrediction";
 import DemandForecast from "../components/ai-insights/DemandForecast";
@@ -14,8 +15,10 @@ import DoctorAttendancePrediction from "../components/ai-insights/DoctorAttendan
 import PHCRiskTable from "../components/ai-insights/PHCRiskTable";
 import ResourceRecommendations from "../components/ai-insights/ResourceRecommendations";
 import ExplainableAI from "../components/ai-insights/ExplainableAI";
+import ModelInfoFooter from "../components/ai-insights/ModelInfoFooter";
 
 import {
+  SITUATION_SUMMARY,
   OVERVIEW_SUMMARY,
   MEDICINE_STOCKOUT_PREDICTIONS,
   STOCKOUT_HORIZONS,
@@ -23,6 +26,8 @@ import {
   DOCTOR_ATTENDANCE_PREDICTION,
   PHC_RISK_TABLE,
   RESOURCE_RECOMMENDATIONS,
+  EXPLAINABILITY_FACTORS,
+  MODEL_INFO,
   RISK_LEVEL_ORDER,
 } from "../data/aiInsightsData";
 
@@ -41,6 +46,9 @@ export default function AIInsights() {
         </p>
       </div>
 
+      {/* 0. AI situation summary hero */}
+      <AISituationSummary summary={SITUATION_SUMMARY} />
+
       {/* 1. Overview cards */}
       <AIOverviewCards summary={OVERVIEW_SUMMARY} />
 
@@ -56,11 +64,14 @@ export default function AIInsights() {
       {/* 5. Underperforming PHCs */}
       <PHCRiskTable phcs={sortedRiskTable} />
 
-      {/* 6 & 7. Recommendations + explanations side by side on larger screens */}
+      {/* 6 & 7. Top recommendations + explainability side by side on larger screens */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <ResourceRecommendations recommendations={RESOURCE_RECOMMENDATIONS} />
-        <ExplainableAI recommendations={RESOURCE_RECOMMENDATIONS} />
+        <ExplainableAI recommendations={RESOURCE_RECOMMENDATIONS} factors={EXPLAINABILITY_FACTORS} />
       </div>
+
+      {/* 8. Model information footer */}
+      <ModelInfoFooter info={MODEL_INFO} />
     </div>
   );
 }

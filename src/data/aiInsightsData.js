@@ -14,13 +14,32 @@ export const PHC_NAMES = [
   "PHC Wadakkanchery",
 ];
 
+// --- 0. AI situation summary (hero) -------------------------------------
+
+export const SITUATION_SUMMARY = {
+  headline: "PulsePilot AI predicts:",
+  points: [
+    "5 medicines likely to stock out",
+    "Patient load expected to rise by 18%",
+    "Doctor shortage predicted at PHC Kodungallur",
+    "Recommend redistributing medicines between nearby PHCs",
+  ],
+  confidence: 87,
+};
+
 // --- 1. Overview summary ----------------------------------------------
+// Each metric now carries a short "context" line so the cards read as
+// insights rather than bare numbers.
 
 export const OVERVIEW_SUMMARY = {
   highRiskPhcCount: 2,
+  highRiskPhcContext: "+1 since yesterday",
   predictedStockOuts: 5,
+  predictedStockOutsContext: "Within next 14 days",
   expectedPatientIncreasePct: 18,
+  expectedPatientIncreaseContext: "Next 7 days",
   aiConfidenceScore: 87,
+  aiConfidenceContext: "Model accuracy",
 };
 
 // --- 2. Medicine stock-out predictions --------------------------------
@@ -123,6 +142,7 @@ export const RESOURCE_RECOMMENDATIONS = [
     toPhc: "PHC Wadakkanchery",
     quantity: "1,200 tablets",
     confidence: 88,
+    expectedImpact: "Reduce shortage risk by 76%",
     explanation:
       "Because Paracetamol consumption at PHC Wadakkanchery increased by 41% over the previous week while its inventory dropped below the reorder threshold, and PHC Chalakudy is holding surplus stock well above its own reorder level.",
   },
@@ -134,6 +154,7 @@ export const RESOURCE_RECOMMENDATIONS = [
     toPhc: "PHC Kodungallur",
     quantity: "1 doctor",
     confidence: 82,
+    expectedImpact: "Restore attendance coverage to 90%+",
     explanation:
       "Because PHC Kodungallur's predicted doctor attendance has fallen to 71% against a forecasted patient footfall increase of 18%, while PHC Mala is forecast to run at 90% attendance with lower footfall growth.",
   },
@@ -145,21 +166,49 @@ export const RESOURCE_RECOMMENDATIONS = [
     toPhc: "PHC Kodungallur",
     quantity: "+6 beds",
     confidence: 76,
+    expectedImpact: "Prevent peak-day overcapacity",
     explanation:
       "Because patient footfall at PHC Kodungallur is forecast to grow faster than the network average over the next 7 days, and current bed occupancy is already trending above 85% on peak days.",
   },
   {
     id: "REC-004",
     type: "medicine",
-    title: "Move Insulin from PHC Mala to PHC Kodungallur",
-    fromPhc: "PHC Mala",
-    toPhc: "PHC Kodungallur",
-    quantity: "20 vials",
-    confidence: 85,
+    title: "Redistribute 300 ORS Sachets",
+    fromPhc: "PHC Kodungallur",
+    toPhc: "PHC Irinjalakuda",
+    quantity: "300 sachets",
+    confidence: 91,
+    expectedImpact: "Reduce shortage risk by 82%",
     explanation:
-      "Because PHC Kodungallur's insulin stock is predicted to run out within 3 days at current usage, while nearby PHC Mala's diabetic caseload and insulin usage remain stable with spare stock available.",
+      "Because ORS consumption at PHC Irinjalakuda is trending 22% above the seasonal average and its inventory is projected to run out within 7 days, while PHC Kodungallur is holding stock above its own reorder level.",
   },
 ];
+
+// --- 7. Explainable AI — general reasoning factors ----------------------
+// High-level factors behind the model's predictions overall, shown in the
+// "Why did AI make these predictions?" panel above the per-recommendation
+// breakdown.
+
+export const EXPLAINABILITY_FACTORS = [
+  "Increased patient visits",
+  "Seasonal disease pattern",
+  "Medicine consumption trend",
+  "Historical PHC demand",
+  "Current doctor availability",
+];
+
+// --- 8. Model information (footer) ---------------------------------------
+
+export const MODEL_INFO = {
+  lastRefresh: "5 minutes ago",
+  modelName: "PulsePilot AI v2.1",
+  dataSources: {
+    phcs: 186,
+    doctors: 312,
+    medicines: 870,
+  },
+  overallAccuracyPct: 94.6,
+};
 
 // --- Shared helpers ------------------------------------------------------
 
